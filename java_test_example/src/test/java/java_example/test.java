@@ -20,12 +20,12 @@ public class test {
 
 		// Example test environment. NOTE: Gridlastic auto scaling requires all
 		// these 3 environment variables in each request.
-		String platform_name = "win7";
-		String browser_name = "internet explorer";
-		String browser_version = "11"; // for Chrome leave empty
+		String platform_name = "win8";
+		String browser_name = "chrome";
+		String browser_version = ""; // for Chrome leave empty
 
 		// optional video recording
-		String record_video = "True";
+		String record_video = "False";
 
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		if (platform_name.equalsIgnoreCase("win7")) {
@@ -52,20 +52,22 @@ public class test {
 		
 		if (browser_name.equalsIgnoreCase("chrome")){
 			ChromeOptions options = new ChromeOptions();
-			options.addArguments(Arrays.asList("--disable-extensions","--disable-logging","--test-type"));
+			options.addArguments(Arrays.asList("--start-maximized"));
 			capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 			} 
 		
 		driver = new RemoteWebDriver(
 				new URL(
-						"http://53YOotZpYNKdKrSRvUvKBd4e5ujPCohx:h5cwp1MdFnhfE0X0KiAcmvgiQqYiE5FM@6T9DOVV93KLAE2HR.gridlastic.com:80/wd/hub"),
+						"http://ec2-54-176-153-50.us-west-1.compute.amazonaws.com:47665/wd/hub"),
 				capabilities);
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
+        if (!browser_name.equalsIgnoreCase("chrome")){
+        driver.manage().window().maximize(); //the window maximize is buggy for chrome using latest chrome 38 version
+        }
 
 		if (record_video.equalsIgnoreCase("True")) {
 			System.out
-					.println("Test Video: https://s3-ap-southeast-2.amazonaws.com/b2729248-ak68-6948-a2y8-80e7479te16a/9ag7b09j-6a38-58w2-bb01-17qw724ce46t/play.html?"
+					.println("Test Video: https://s3-us-west-1.amazonaws.com/027a15f2-530d-31e5-f8cc-7ceaf6355377/8dc7b04e-6a48-58e9-b901-17ba724ce4ee/play.html?"
 							+ ((RemoteWebDriver) driver).getSessionId());
 		}
 	}
