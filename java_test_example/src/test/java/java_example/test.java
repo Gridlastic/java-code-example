@@ -3,6 +3,7 @@ package java_example;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -13,6 +14,7 @@ import org.testng.annotations.Test;
 
 public class test {
 
+	private static final String VIDEO_URL = null;
 	private RemoteWebDriver driver;
 
 	@BeforeMethod(alwaysRun = true)
@@ -20,12 +22,12 @@ public class test {
 
 		// Example test environment. NOTE: Gridlastic auto scaling requires all
 		// these 3 environment variables in each request.
-		String platform_name = "win8";
-		String browser_name = "chrome";
-		String browser_version = ""; // for Chrome leave empty
+		String platform_name = "linux";
+		String browser_name = "firefox";
+		String browser_version = "36"; // for Chrome leave empty
 
 		// optional video recording
-		String record_video = "False";
+		String record_video = "True";
 
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		if (platform_name.equalsIgnoreCase("win7")) {
@@ -56,19 +58,19 @@ public class test {
 			capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 			} 
 		
+	
+		
 		driver = new RemoteWebDriver(
 				new URL(
-						"http://ec2-54-176-153-50.us-west-1.compute.amazonaws.com:47665/wd/hub"),
+						"http://USERNAME:ACCESS_KEY@SUBDOMAIN.gridlastic.com:4444/wd/hub"),
 				capabilities);
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-        if (!browser_name.equalsIgnoreCase("chrome")){
-        driver.manage().window().maximize(); //the window maximize is buggy for chrome using latest chrome 38 version
-        }
+        driver.manage().window().maximize();
+        
 
 		if (record_video.equalsIgnoreCase("True")) {
 			System.out
-					.println("Test Video: https://s3-us-west-1.amazonaws.com/027a15f2-530d-31e5-f8cc-7ceaf6355377/8dc7b04e-6a48-58e9-b901-17ba724ce4ee/play.html?"
-							+ ((RemoteWebDriver) driver).getSessionId());
+					.println("Test Video: " + VIDEO_URL + ((RemoteWebDriver) driver).getSessionId());
 		}
 	}
 
