@@ -1,4 +1,4 @@
-// NOTE: replace USERNAME:ACCESS_KEY@SUBDOMAIN and VIDEO_URL with your credentials found in the Gridlastic dashboard
+// NOTE: replace USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN and VIDEO_URL with your credentials found in the Gridlastic dashboard
 // ALSO SEE https://github.com/Gridlastic/demo1 FOR JAVA TESTNG EXAMPLES WITH PARALLEL TEST EXECUTIONS
 // NOTE: THE FIRST TEST ON A GRID NODE AFTER BEING LAUNCHED CAN BE SLOW, FOLLOWING TESTS ARE MUCH FASTER AFTER THE NODE IS "WARMED" UP.
 
@@ -33,7 +33,7 @@ public class test {
 		// these 3 environment variables in each request.
 		String platform_name = "win7";
 		String browser_name = "firefox";
-		String browser_version = "41"; // for Chrome leave empty
+		String browser_version = "46"; // for Chrome leave empty
 
 		// optional video recording
 		String record_video = "True";
@@ -56,9 +56,9 @@ public class test {
 
 		// video record
 		if (record_video.equalsIgnoreCase("True")) {
-			capabilities.setCapability("video", "True");
+			capabilities.setCapability("video", "True"); // NOTE: "True" is a case sensitive string, not boolean.
 		} else {
-			capabilities.setCapability("video", "False");
+			capabilities.setCapability("video", "False"); // NOTE: "False" is a case sensitive string, not boolean.
 		}
 		
 		if (browser_name.equalsIgnoreCase("chrome")){
@@ -74,7 +74,7 @@ public class test {
 		
 	
 		//replace USERNAME:ACCESS_KEY@SUBDOMAIN with your credentials found in the Gridlastic dashboard
-		driver = new RemoteWebDriver(new URL("http://USERNAME:ACCESS_KEY@SUBDOMAIN.gridlastic.com:80/wd/hub"),capabilities);
+		driver = new RemoteWebDriver(new URL("http://USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN.gridlastic.com:80/wd/hub"),capabilities);
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		driver.manage().window().maximize(); // Always maximize firefox on windows
 		
@@ -85,8 +85,7 @@ public class test {
         
 
 		if (record_video.equalsIgnoreCase("True")) {
-			System.out
-					.println("Test Video: " + VIDEO_URL + ((RemoteWebDriver) driver).getSessionId());
+			System.out.println("Test Video: " + VIDEO_URL + ((RemoteWebDriver) driver).getSessionId());
 		}
 	}
 
@@ -97,7 +96,7 @@ public class test {
 		WebElement element = driver.findElement(By.name("q"));
         element.sendKeys("webdriver");
         element.submit();
-        Thread.sleep(5000);
+        Thread.sleep(5000); //slow down for demo purposes
 	}
 
 	@AfterMethod(alwaysRun = true)
