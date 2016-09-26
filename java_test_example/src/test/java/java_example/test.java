@@ -33,7 +33,7 @@ public class test {
 		// these 3 environment variables in each request.
 		String platform_name = "win7";
 		String browser_name = "firefox";
-		String browser_version = "46"; // for Chrome leave empty
+		String browser_version = "47"; // for Chrome leave empty
 
 		// optional video recording
 		String record_video = "True";
@@ -65,6 +65,7 @@ public class test {
 			ChromeOptions options = new ChromeOptions();
 			// On Linux start-maximized does not expand browser window to max screen size. Always set a window size.
 			if (platform_name.equalsIgnoreCase("linux")) {
+				options.addArguments(Arrays.asList("--window-position=0,0"));
 				options.addArguments(Arrays.asList("--window-size=1920,1080"));	
 				} else {
 				options.addArguments(Arrays.asList("--start-maximized"));
