@@ -61,6 +61,7 @@ public class test {
 			capabilities.setCapability("video", "False"); // NOTE: "False" is a case sensitive string, not boolean.
 		}
 		
+		//Chrome specifics
 		if (browser_name.equalsIgnoreCase("chrome")){
 			ChromeOptions options = new ChromeOptions();
 			// On Linux start-maximized does not expand browser window to max screen size. Always set a window size.
@@ -73,6 +74,13 @@ public class test {
 			capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 			} 
 		
+		//Firefox specifics
+		if (browser_name.equalsIgnoreCase("firefox")){
+				// If you are using selenium 3 and test Firefox versions below version 48
+				if(Integer.parseInt(browser_version)<48){
+				capabilities.setCapability("marionette", false);
+				}
+		}
 	
 		//replace USERNAME:ACCESS_KEY@SUBDOMAIN with your credentials found in the Gridlastic dashboard
 		driver = new RemoteWebDriver(new URL("http://USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN.gridlastic.com:80/wd/hub"),capabilities);
