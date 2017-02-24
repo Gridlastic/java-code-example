@@ -7,6 +7,11 @@
 	<name>java_test_example</name>
 	<description>Gridlastic java code example</description>
 	<dependencies>
+	<dependency>
+     <groupId>com.google.guava</groupId>
+     <artifactId>guava</artifactId>
+     <version>21.0</version>
+	</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
