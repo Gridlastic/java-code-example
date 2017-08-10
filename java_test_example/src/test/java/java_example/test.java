@@ -32,8 +32,8 @@ public class test {
 		// Example test environment. NOTE: Gridlastic auto scaling requires all
 		// these 3 environment variables in each request.
 		String platform_name = "win7";
-		String browser_name = "firefox";
-		String browser_version = "47"; // for Chrome leave empty
+		String browser_name = "chrome";
+		String browser_version = "latest";
 
 		// optional video recording
 		String record_video = "True";
@@ -90,7 +90,6 @@ public class test {
 		//replace USERNAME:ACCESS_KEY@SUBDOMAIN with your credentials found in the Gridlastic dashboard
 		driver = new RemoteWebDriver(new URL("http://USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN.gridlastic.com:80/wd/hub"),capabilities);
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-		driver.manage().window().maximize(); // Always maximize firefox on windows
 		
         // On LINUX/FIREFOX the "driver.manage().window().maximize()" option does not expand browser window to max screen size. Always set a window size.
     	if (platform_name.equalsIgnoreCase("linux") && browser_name.equalsIgnoreCase("firefox")) {
