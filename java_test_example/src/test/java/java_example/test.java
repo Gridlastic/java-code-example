@@ -1,6 +1,6 @@
 // NOTE: replace USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN and VIDEO_URL with your credentials found in the Gridlastic dashboard
 // ALSO SEE https://github.com/Gridlastic/demo1 FOR JAVA TESTNG EXAMPLES WITH PARALLEL TEST EXECUTIONS
-// NOTE: THE FIRST TEST ON A GRID NODE AFTER BEING LAUNCHED CAN BE SLOW, FOLLOWING TESTS ARE MUCH FASTER AFTER THE NODE IS "WARMED" UP.
+// FOR SELENIUM VERSION 3.53+, FIREFOX VERSIONS 55+ REQUIRES THE BINARY LOCATION ON THE GRID NODE TO BE SPECIFIED.
 
 package java_example;
 
@@ -15,6 +15,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -31,9 +32,9 @@ public class test {
 
 		// Example test environment. NOTE: Gridlastic auto scaling requires all
 		// these 3 environment variables in each request.
-		String platform_name = "win7";
+		String platform_name = "win10";
 		String browser_name = "chrome";
-		String browser_version = "latest";
+		String browser_version = "latest";// you can use "latest" for chrome only or a specific version number. For Firefox and internet explorer use a specific version number.
 
 		// optional video recording
 		String record_video = "True";
@@ -41,19 +42,19 @@ public class test {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		if (platform_name.equalsIgnoreCase("win7")) {
 			capabilities.setPlatform(Platform.VISTA);
-			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE
+			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE. Required when testing with Chrome 77+.
 		}
 		if (platform_name.equalsIgnoreCase("win8")) {
 			capabilities.setPlatform(Platform.WIN8);
-			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE
+			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE. Required when testing with Chrome 77+.
 		}
 		if (platform_name.equalsIgnoreCase("win8_1")) {
 			capabilities.setPlatform(Platform.WIN8_1);
-			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE
+			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE. Required when testing with Chrome 77+.
 		}
 		if (platform_name.equalsIgnoreCase("win10")) {
 			capabilities.setPlatform(Platform.WIN10);
-			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE
+			capabilities.setCapability("platformName", "windows"); //required from selenium version 3.9.1 when testing with firefox or IE. Required when testing with Chrome 77+.
 		}
 		if (platform_name.equalsIgnoreCase("linux")) {
 			capabilities.setPlatform(Platform.LINUX);
@@ -71,7 +72,7 @@ public class test {
 		//Chrome specifics
 		if (browser_name.equalsIgnoreCase("chrome")){
 			ChromeOptions options = new ChromeOptions();
-			options.addArguments("disable-infobars"); // starting from Chrome 57 the info bar displays with "Chrome is being controlled by automated test software."
+			options.addArguments("disable-infobars"); // starting from Chrome 57 the info bar displays with "Chrome is being controlled by automated test software.". This flag has been disabled by Google from Chrome version 75.
 			
 			// On Linux start-maximized does not expand browser window to max screen size. Always set a window size.
 			if (platform_name.equalsIgnoreCase("linux")) {
@@ -83,13 +84,19 @@ public class test {
 			capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 			} 
 		
-		//Firefox specifics
-		if (browser_name.equalsIgnoreCase("firefox")){
-				// If you are using selenium 3 and test Firefox versions below version 48
-				if(Integer.parseInt(browser_version)<48){
-				capabilities.setCapability("marionette", false);
+		//Firefox version 55+ specifics
+				if (browser_name.equalsIgnoreCase("firefox")){
+				FirefoxOptions ffOptions = new FirefoxOptions();
+						
+						// Required to specify firefox binary location on Gridlastic grid nodes starting from selenium version 3.5.3+, see firefox documentation https://www.gridlastic.com/test-environments.html#firefox_testing				
+						 if (platform_name.equalsIgnoreCase("linux")){
+							 ffOptions.setBinary("/home/ubuntu/Downloads/firefox"+browser_version+"/firefox");
+						 } else {
+							 ffOptions.setBinary("C:\\Program Files (x86)\\Mozilla Firefox\\firefox"+browser_version+"\\firefox.exe");
+						 }				
+						capabilities.setCapability("moz:firefoxOptions", ffOptions);
+
 				}
-		}
 	
 		//replace USERNAME:ACCESS_KEY@SUBDOMAIN with your credentials found in the Gridlastic dashboard
 		driver = new RemoteWebDriver(new URL("http://USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN.gridlastic.com:80/wd/hub"),capabilities);

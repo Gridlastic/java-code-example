@@ -10,7 +10,7 @@
 	<dependency>
      <groupId>com.google.guava</groupId>
      <artifactId>guava</artifactId>
-     <version>21.0</version>
+     <version>23.0</version>
 	</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.53.1</version>
+			<version>3.14.0</version>
 		</dependency>
 	</dependencies>
 	<build>
