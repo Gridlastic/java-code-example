@@ -1,6 +1,6 @@
-// NOTE: replace USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN and VIDEO_URL with your credentials found in the Gridlastic dashboard
+// NOTE: replace USERNAME:ACCESS_KEY@HUB_SUBDOMAIN and VIDEO_URL with your credentials found in the Gridlastic dashboard
 // ALSO SEE https://github.com/Gridlastic/demo1 FOR JAVA TESTNG EXAMPLES WITH PARALLEL TEST EXECUTIONS
-// FOR SELENIUM VERSION 3.53+, FIREFOX VERSIONS 55+ REQUIRES THE BINARY LOCATION ON THE GRID NODE TO BE SPECIFIED.
+// FOR SELENIUM VERSION 3.53 - 3.9.1, FIREFOX VERSIONS 55+ REQUIRES THE BINARY LOCATION ON THE GRID NODE TO BE SPECIFIED.
 
 package java_example;
 
@@ -72,12 +72,11 @@ public class test {
 		//Chrome specifics
 		if (browser_name.equalsIgnoreCase("chrome")){
 			ChromeOptions options = new ChromeOptions();
-			options.addArguments("disable-infobars"); // starting from Chrome 57 the info bar displays with "Chrome is being controlled by automated test software.". This flag has been disabled by Google from Chrome version 75.
-			
+				
 			// On Linux start-maximized does not expand browser window to max screen size. Always set a window size.
 			if (platform_name.equalsIgnoreCase("linux")) {
 				options.addArguments(Arrays.asList("--window-position=0,0"));
-				options.addArguments(Arrays.asList("--window-size=1920,1080"));	
+				options.addArguments(Arrays.asList("--window-size=1840,1080"));	// starting with Chrome version 83, use width of 1840 instead of 1920 to capture the entire webpage on video recording.
 				} else {
 				options.addArguments(Arrays.asList("--start-maximized"));
 				}
@@ -98,8 +97,8 @@ public class test {
 
 				}
 	
-		//replace USERNAME:ACCESS_KEY@SUBDOMAIN with your credentials found in the Gridlastic dashboard
-		driver = new RemoteWebDriver(new URL("http://USERNAME:ACCESS_KEY@YOUR_SUBDOMAIN.gridlastic.com:80/wd/hub"),capabilities);
+		//replace USERNAME:ACCESS_KEY@HUB_SUBDOMAIN with your credentials found in the Gridlastic dashboard
+		driver = new RemoteWebDriver(new URL("https://USERNAME:ACCESS_KEY@HUB_SUBDOMAIN.gridlastic.com/wd/hub"),capabilities);
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		
         // On LINUX/FIREFOX the "driver.manage().window().maximize()" option does not expand browser window to max screen size. Always set a window size.
