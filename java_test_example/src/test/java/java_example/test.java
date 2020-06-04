@@ -1,5 +1,5 @@
+// See example for selenium version 3.14.0 with parallel test execution here https://github.com/Gridlastic/selenium-grid-java-example 
 // NOTE: replace USERNAME:ACCESS_KEY@HUB_SUBDOMAIN and VIDEO_URL with your credentials found in the Gridlastic dashboard
-// ALSO SEE https://github.com/Gridlastic/demo1 FOR JAVA TESTNG EXAMPLES WITH PARALLEL TEST EXECUTIONS
 // FOR SELENIUM VERSION 3.53 - 3.9.1, FIREFOX VERSIONS 55+ REQUIRES THE BINARY LOCATION ON THE GRID NODE TO BE SPECIFIED.
 
 package java_example;
