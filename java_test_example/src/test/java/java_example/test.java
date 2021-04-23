@@ -34,7 +34,7 @@ public class test {
 		// these 3 environment variables in each request.
 		String platform_name = "win10";
 		String browser_name = "chrome";
-		String browser_version = "latest";// you can use "latest" for chrome only or a specific version number. For Firefox and internet explorer use a specific version number.
+		String browser_version = "latest";
 
 		// optional video recording
 		String record_video = "True";
@@ -87,16 +87,17 @@ public class test {
 				if (browser_name.equalsIgnoreCase("firefox")){
 				FirefoxOptions ffOptions = new FirefoxOptions();
 						
-						// Required to specify firefox binary location on Gridlastic grid nodes starting from selenium version 3.5.3+, see firefox documentation https://www.gridlastic.com/test-environments.html#firefox_testing				
-						 if (platform_name.equalsIgnoreCase("linux")){
-							 ffOptions.setBinary("/home/ubuntu/Downloads/firefox"+browser_version+"/firefox");
-						 } else {
-							 ffOptions.setBinary("C:\\Program Files (x86)\\Mozilla Firefox\\firefox"+browser_version+"\\firefox.exe");
-						 }				
-						capabilities.setCapability("moz:firefoxOptions", ffOptions);
-
+			// Required to specify firefox binary location on Gridlastic grid nodes starting from selenium version 3.5.3+, see firefox documentation https://www.gridlastic.com/test-environments.html#firefox_testing				
+			if (!browser_version.equalsIgnoreCase("latest")) {
+				if (platform_name.equalsIgnoreCase("linux")) {
+					ffOptions.setBinary("/home/ubuntu/Downloads/firefox" + browser_version + "/firefox");
+				} else {
+					ffOptions.setBinary(
+							"C:\\Program Files (x86)\\Mozilla Firefox\\firefox" + browser_version + "\\firefox.exe");
 				}
-	
+			}
+				capabilities.setCapability("moz:firefoxOptions", ffOptions);			
+		}
 		//replace USERNAME:ACCESS_KEY@HUB_SUBDOMAIN with your credentials found in the Gridlastic dashboard
 		driver = new RemoteWebDriver(new URL("https://USERNAME:ACCESS_KEY@HUB_SUBDOMAIN.gridlastic.com/wd/hub"),capabilities);
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
