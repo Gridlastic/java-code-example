@@ -10,12 +10,12 @@
 	<dependency>
      <groupId>com.google.guava</groupId>
      <artifactId>guava</artifactId>
-     <version>30.0-jre</version>
+     <version>32.0.0-jre</version>
 	</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.9.10</version>
+			<version>7.7.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
